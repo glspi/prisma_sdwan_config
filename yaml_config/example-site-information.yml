@@ -1,0 +1,28 @@
+---
+site_name: my-new-site
+site_abbreviation: MNS
+site_id: 77                       # Site ID: 77 creates Site Subnet: 10.77.0.0/16
+ion_model: 1000                   # 1000 or 2000
+ion_serial_number: 12-123456-1234
+inet1:
+  provider: Lumen                 # Provider type MUST ALREADY EXIST
+  download: 500                   # In Mbps, leave blank if unknown
+  upload: 500                     # In Mbps, leave blank if unknown
+  category: Ethernet Internet     # Options: Ethernet Internet, Internet Cable, Internet DSL (Any other Category needs prisma_access tag & LQM Enabled)
+  ip_cidr: 65.65.65.5/29
+  gateway: 65.65.65.1
+inet2:                            # Can leave inet2 fields blank if not applicable
+  provider: 
+  download: 
+  upload: 
+  category:                       # Must be different than inet1 category
+  ip_cidr: 
+  gateway: 
+  
+# Below can likely be kept at defaults for all sites
+dhcp_domain_name: 
+snmpv2_community: 
+syslog_server: 
+service_binding:                 # Service & DC Group Name
+dns_service_profile: 
+path_policy: 
