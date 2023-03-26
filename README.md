@@ -1,4 +1,15 @@
 
+
+FORKED FROM: https://github.com/CloudGenix/cloudgenix_config
+TO ALLOW USAGE WITH: https://github.com/PaloAltoNetworks/prisma-sase-sdk-python
+Also, a 'build_site' command added to create new sites from existing Jinja Templates. Currently only 4 templates supported. Should be able to easily tweak to support others.
+
+
+Currently this relies on the prisma-sase-sdk-python being compatible with the CloudGenix Python SDK (https://github.com/CloudGenix/sdk-python) as it's simply swapped from a login perspective, and luckily the rest of the api calls work 100%! (Thanks Palo/CGX!)
+
+Todo: generic template usage, assume variables in jinja match site-information, and leave the actual config up to the user (if do_site fails that's on the template creator!)
+
+
 [![CloudGenix Logo](https://raw.githubusercontent.com/CloudGenix/sdk-python/master/docs/CloudGenix_Logo.png)](https://www.cloudgenix.com)
 
 [![image](https://img.shields.io/pypi/v/cloudgenix_config.svg)](https://pypi.org/project/cloudgenix_config/)
