@@ -19,7 +19,7 @@ Todo: generic/manual template option, assume variables in jinja match site-infor
 [![Downloads](https://pepy.tech/badge/cloudgenix-config)](https://pepy.tech/project/cloudgenix-config)
 [![License: MIT](https://img.shields.io/pypi/l/cloudgenix_config.svg?color=brightgreen)](https://pypi.org/project/cloudgenix_config/)
 [![GitHub issues open](https://img.shields.io/github/issues/CloudGenix/cloudgenix_config.svg)](https://github.com/CloudGenix/cloudgenix_config/issues)
-# CloudGenix Config (Preview)
+# CloudGenix Config 
 Configuration exporting and Continuous Integration (CI) capable configuration importing for the CloudGenix Cloud Controller.
 
 #### Synopsis
@@ -123,7 +123,8 @@ The CloudGenix Config Utility will default to using the SDK version. An out-of-d
 #### Version
 | Version | Build | Changes |
 | ------- | ----- | ------- |
-| **1.9.0** | **b1** | Support for Cloudgenix SDK 6.1.1b1, bug fixes|
+| **1.9.0** | **b2** | Bug fixes - CGCBL-1251, CGCBL-1578|
+|           | **b1** | Support for Cloudgenix SDK 6.1.1b1, bug fixes|
 | **1.8.0** | **b1** | Support for Cloudgenix SDK 6.0.2b1, Fix for CGCBL-1399, CGCBL-1347|
 | **1.7.0** | **b3** | Bug fixes|
 |           | **b2** | Fix for CGCBL-336, #73, #74 and CGESC-700|
