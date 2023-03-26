@@ -13,15 +13,20 @@ setup(name='cloudgenix_config',
       author='CloudGenix Developer Support',
       author_email='developers@cloudgenix.com',
       license='MIT',
+      include_package_data=True,
       install_requires=[
             'cloudgenix >= 6.1.1b1, < 6.1.3b1',
-            'PyYAML >= 5.3'
+            'PyYAML >= 5.3',
+            'jinja2==3.1.2',
+            'typer==0.7.0',
+            'prisma_sase @ git+https://github.com/PaloAltoNetworks/prisma-sase-sdk-python.git'
       ],
-      packages=['cloudgenix_config'],
+      packages=['cloudgenix_config', 'yaml_config'],
       entry_points={
             'console_scripts': [
                   'do_site = cloudgenix_config.do:go',
                   'pull_site = cloudgenix_config.pull:go',
+                  'build_site = yaml_config.build:go'
                   ]
       },
       classifiers=[

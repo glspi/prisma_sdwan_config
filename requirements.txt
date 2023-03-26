@@ -1,2 +1,2 @@
-cloudgenix>=6.1.1b1
+-r git+https://github.com/PaloAltoNetworks/prisma-sase-sdk-python.git
 PyYAML>=5.3
