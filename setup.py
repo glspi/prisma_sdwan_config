@@ -6,12 +6,12 @@ with open('README.md') as f:
 setup(name='cloudgenix_config',
       version='1.9.0b2',
       description='Configuration exporting and Continuous Integration (CI) capable configuration importing for the '
-                  'CloudGenix Cloud Controller.',
+                  'Prisma Sase Cloud Controller.',
       long_description=long_description,
       long_description_content_type='text/markdown',
-      url='https://github.com/CloudGenix/cloudgenix_config',
-      author='CloudGenix Developer Support',
-      author_email='developers@cloudgenix.com',
+      url='https://github.com/glspi/prisma_sdwan_config',
+      author='CloudGenix Developer Support - build_site by glspi',
+      author_email='',
       license='MIT',
       include_package_data=True,
       install_requires=[
@@ -33,9 +33,11 @@ setup(name='cloudgenix_config',
             "Development Status :: 4 - Beta",
             "Intended Audience :: Developers",
             "License :: OSI Approved :: MIT License",
-            "Programming Language :: Python :: 2.7",
             "Programming Language :: Python :: 3.6",
             "Programming Language :: Python :: 3.7",
-            "Programming Language :: Python :: 3.8"
+            "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11"
       ]
       )
