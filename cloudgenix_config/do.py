@@ -41,6 +41,8 @@ import argparse
 import re
 import base64
 
+from prisma_sase import API, jd
+
 # CloudGenix Python SDK
 try:
     import cloudgenix
@@ -11493,16 +11495,22 @@ def go():
                               default='SDK')
     # Allow Controller modification and debug level sets.
     controller_group = parser.add_argument_group('API', 'These options change how this program connects to the API.')
-    controller_group.add_argument("--controller", "-C",
-                                  help="Controller URI, ex. https://api.elcapitan.cloudgenix.com",
-                                  default=None)
+    # controller_group.add_argument("--controller", "-C",
+    #                               help="Controller URI, ex. https://api.elcapitan.cloudgenix.com",
+    #                               default=None)
 
     login_group = parser.add_argument_group('Login', 'These options allow skipping of interactive login')
-    login_group.add_argument("--email", "-E", help="Use this email as User Name instead of cloudgenix_settings.py "
-                                                   "or prompting",
+    # login_group.add_argument("--email", "-E", help="Use this email as User Name instead of cloudgenix_settings.py "
+    #                                                "or prompting",
+    #                          default=None)
+    # login_group.add_argument("--password", "-PW", help="Use this Password instead of cloudgenix_settings.py "
+    #                                                    "or prompting",
+    #                          default=None)
+    login_group.add_argument("--tsg-id", "-T", help="TSG ID (123456789)",
                              default=None)
-    login_group.add_argument("--password", "-PW", help="Use this Password instead of cloudgenix_settings.py "
-                                                       "or prompting",
+    login_group.add_argument("--client-id", "-C", help="client_id (user@123456989.iam.panserviceaccount.com)",
+                             default=None)
+    login_group.add_argument("--client-secret", "-secret", help="client_secret (xyzabce-ab12-12ce-1234-xyzabca123487)",
                              default=None)
     login_group.add_argument("--insecure", "-I", help="Do not verify SSL certificate",
                              action='store_true',
@@ -11549,15 +11557,22 @@ def go():
     # set safety factor
     site_safety_factor = args["site_safety_factor"]
 
+    # Set Credentials
+    TSG_ID = args['tsg_id']
+    CLIENT_ID = args['client_id']
+    CLIENT_SECRET = args['client_secret']
+
     # Build SDK Constructor
-    if args['controller'] and args['insecure']:
-        sdk = cloudgenix.API(controller=args['controller'], ssl_verify=False)
-    elif args['controller']:
-        sdk = cloudgenix.API(controller=args['controller'])
-    elif args['insecure']:
-        sdk = cloudgenix.API(ssl_verify=False)
-    else:
-        sdk = cloudgenix.API()
+    sdk = API()
+    # if args['controller'] and args['insecure']:
+    #     sdk = cloudgenix.API(controller=args['controller'], ssl_verify=False)
+    # elif args['controller']:
+    #     sdk = cloudgenix.API(controller=args['controller'])
+    # elif args['insecure']:
+    #     sdk = cloudgenix.API(ssl_verify=False)
+    # else:
+    #     sdk = cloudgenix.API()
+        
 
     # check for region ignore
     if args['ignore_region']:
@@ -11596,34 +11611,55 @@ def go():
 
     # login logic. Use cmdline if set, use AUTH_TOKEN next, finally user/pass from config file, then prompt.
     # figure out user
-    if args["email"]:
-        user_email = args["email"]
-    elif CLOUDGENIX_USER:
-        user_email = CLOUDGENIX_USER
-    else:
-        user_email = None
+    # if args["email"]:
+    #     user_email = args["email"]
+    # elif CLOUDGENIX_USER:
+    #     user_email = CLOUDGENIX_USER
+    # else:
+    #     user_email = None
 
     # figure out password
-    if args["password"]:
-        user_password = args["password"]
-    elif CLOUDGENIX_PASSWORD:
-        user_password = CLOUDGENIX_PASSWORD
-    else:
-        user_password = None
+    # if args["password"]:
+    #     user_password = args["password"]
+    # elif CLOUDGENIX_PASSWORD:
+    #     user_password = CLOUDGENIX_PASSWORD
+    # else:
+    #     user_password = None
 
     # check for token
-    if CLOUDGENIX_AUTH_TOKEN and not args["email"] and not args["password"]:
-        sdk.interactive.use_token(CLOUDGENIX_AUTH_TOKEN)
-        if sdk.tenant_id is None:
-            throw_error("AUTH_TOKEN login failure, please check token.")
+    # if CLOUDGENIX_AUTH_TOKEN and not args["email"] and not args["password"]:
+    #     sdk.interactive.use_token(CLOUDGENIX_AUTH_TOKEN)
+    #     if sdk.tenant_id is None:
+    #         throw_error("AUTH_TOKEN login failure, please check token.")
 
-    else:
-        while sdk.tenant_id is None:
-            sdk.interactive.login(user_email, user_password)
-            # clear after one failed login, force relogin.
-            if not sdk.tenant_id:
-                user_email = None
-                user_password = None
+    # else:
+    #     while sdk.tenant_id is None:
+    #         #sdk.interactive.login(user_email, user_password)
+    #         print('hi')
+    #         sdk.interactive.login_secret(client_id='glspi-api-access@1317649041.iam.panserviceaccount.com',
+    #                                      client_secret='2f0d2760-fc4f-4cfe-ae4e-8f01dfc5af33',
+    #                                      tsg_id=1317649041)
+    #         # clear after one failed login, force relogin.
+    #         if not sdk.tenant_id:
+    #             user_email = None
+    #             user_password = None
+
+     # Get Creds
+    creds = {"tsg_id": TSG_ID, "client_id": CLIENT_ID, "client_secret": CLIENT_SECRET}
+
+    try:
+        for cred_name in creds:
+            if not creds.get(cred_name):
+                if cred_name.upper() in os.environ:
+                    creds[cred_name] = os.environ.get(cred_name.upper)
+                else:
+                    creds[cred_name] = input(f"Enter the {cred_name.upper()}: ") 
+    except KeyboardInterrupt:
+        print("Ctrl + C pressed, canceling..\n")
+
+    # Login
+    sdk.interactive.login_secret(**creds)
+
     # Do the real work
     try:
         do_site(loaded_config, destroy, declaim=declaim, wait_element_config=wait_element_config, passed_apiversion=apiversion)

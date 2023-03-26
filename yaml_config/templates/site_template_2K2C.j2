@@ -1,0 +1,751 @@
+---
+type: cloudgenix template
+# Created at 2023-03-24T04:52:38.014065Z
+# by e5b237b2-8411-4347-ae10-d52981c37958@1961832340
+# Note: For interface configuration, if the source_interface or parent_interface is a bypasspair port, add the attribute 'parent_type': bypasspair_<name> where name is the interface name. 
+# If this field is not specified, the cloudgenix_config utility will assume the parent interface is of type 'port'.
+sites v4.7:
+  {{ site_name }}:
+    address:
+      city: 
+      country:
+      post_code:
+      state:
+      street:
+      street2:
+    admin_state: disabled
+    description: {{ site_abbreviation }}
+    dhcpservers v2.1:
+    - broadcast_address: 192.168.{{ site_id }}.255
+      custom_options:
+      default_lease_time: 43200
+      description: Guest Wireless
+      disabled: false
+      dns_servers:
+      - 8.8.8.8
+      - 1.1.1.1
+      domain_name:
+      gateway: 192.168.{{ site_id }}.1
+      ip_ranges:
+      - end_ip: 192.168.{{ site_id }}.220
+        start_ip: 192.168.{{ site_id }}.20
+      max_lease_time: 86400
+      network_context_id:
+      static_mappings:
+      subnet: 192.168.{{ site_id }}.0/24
+      tags:
+    - broadcast_address: 10.{{ site_id }}.0.255
+      custom_options:
+      default_lease_time: 43200
+      description: {{ site_name }}
+      disabled: false
+      dns_servers:
+      - 172.30.{{ site_id }}.1
+      domain_name: {{ dhcp_domain_name }}
+      gateway: 10.{{ site_id }}.0.254
+      ip_ranges:
+      - end_ip: 10.{{ site_id }}.0.220
+        start_ip: 10.{{ site_id }}.0.20
+      max_lease_time: 86400
+      network_context_id:
+      static_mappings:
+      subnet: 10.{{ site_id }}.0.0/24
+      tags:
+    - broadcast_address: 10.{{ site_id }}.60.255
+      custom_options:
+      default_lease_time: 43200
+      description: Management
+      disabled: false
+      dns_servers:
+      - 172.30.{{ site_id }}.1
+      domain_name: {{ dhcp_domain_name }}
+      gateway: 10.{{ site_id }}.60.254
+      ip_ranges:
+      - end_ip: 10.{{ site_id }}.60.161
+        start_ip: 10.{{ site_id }}.60.151
+      max_lease_time: 86400
+      network_context_id:
+      static_mappings:
+      subnet: 10.{{ site_id }}.60.0/24
+      tags:
+    - broadcast_address: 10.{{ site_id }}.70.255
+      custom_options:
+      default_lease_time: 43200
+      description: Wireless
+      disabled: false
+      dns_servers:
+      - 172.30.{{ site_id }}.1
+      domain_name: {{ dhcp_domain_name }}
+      gateway: 10.{{ site_id }}.70.254
+      ip_ranges:
+      - end_ip: 10.{{ site_id }}.70.220
+        start_ip: 10.{{ site_id }}.70.20
+      max_lease_time: 86400
+      network_context_id:
+      static_mappings:
+      subnet: 10.{{ site_id }}.70.0/24
+      tags:
+    element_cluster_role: SPOKE
+    elements v3.0:
+      {{ site_abbreviation }}-ION:
+        admin_action:
+        admin_renew_state:
+        admin_suspend_state: active_suspend_init
+        allowed_roles:
+        - HUB
+        - SPOKE
+        application_probe v2.0:
+          description:
+          enable_probe: true
+          name: default-probe-configuration-1677791234706007196
+          source_interface_id: '1.10'
+          tags:
+        cellular_modules_sim_security v2.0: {}
+        cluster_id:
+        connected: true
+        deployment_op:
+        description:
+        device_profile_id:
+        dnsservices v2.0:
+          cache_config:
+            cache_size: 150
+          description: ''
+          dns_queries_metadata:
+            add_customer_premises_equipment:
+              identifier_text: ''
+              type: text
+          dnsservice_profile_id: {{ dns_service_profile }}
+          dnsservicerole_bindings:
+          - dnsservicerole_id: DNS Servers Role
+            interfaces:
+            - interface_id: '1.10'
+          domains_to_addresses:
+          domains_to_interfaces:
+          element_id: {{ site_abbreviation }}-ION
+          enabled: true
+          max_concurrent_dns_queries: 150
+          name: ION DNS
+          tags:
+        element_security_zones v2.0: []
+        fips_mode: non_fips
+        fips_mode_change_start_time: 0
+        interfaces v4.14:
+          '1':
+            admin_up: true
+            attached_lan_networks:
+            authentication_config:
+            bound_interfaces:
+            bypass_pair:
+            cellular_config:
+            description: {{ site_abbreviation }} LAN & Guest WIFI - Parent Interface. No additional configuration
+              is required/allowed.
+            devicemgmt_policysetstack_id:
+            dhcp_relay:
+            directed_broadcast: false
+            ethernet_port:
+              full_duplex: false
+              speed: 0
+            interface_profile_id:
+            ipfixcollectorcontext_id:
+            ipfixfiltercontext_id:
+            ipv4_config:
+            ipv6_config:
+            lldp_enabled: false
+            mac_address:
+            mtu: 1500
+            multicast_config:
+              dr_priority:
+              igmp_static_joins:
+              igmp_version: IGMPV3
+              multicast_enabled: false
+            nat_address:
+            nat_address_v6:
+            nat_pools:
+            nat_port: 0
+            nat_port_v6: 0
+            nat_zone_id:
+            network_context_id:
+            parent:
+            poe_enabled: false
+            power_usage_threshold: 0
+            pppoe_config:
+            scope: local
+            secondary_ip_configs:
+            service_link_config:
+            site_wan_interface_ids:
+            static_arp_configs:
+            sub_interface:
+            switch_port_config:
+            tags:
+            type: port
+            used_for: none
+            vlan_config:
+          '1.10':
+            admin_up: true
+            attached_lan_networks:
+            authentication_config:
+            bound_interfaces:
+            bypass_pair:
+            cellular_config:
+            description: {{ site_abbreviation }} LAN
+            devicemgmt_policysetstack_id:
+            dhcp_relay:
+            directed_broadcast: false
+            ethernet_port:
+              full_duplex: false
+              speed: 0
+            interface_profile_id:
+            ipfixcollectorcontext_id:
+            ipfixfiltercontext_id:
+            ipv4_config:
+              dhcp_config:
+              dns_v4_config:
+              routes:
+              static_config:
+                address: 172.30.{{ site_id }}.1/29
+              type: static
+            ipv6_config:
+            lldp_enabled: false
+            mac_address:
+            mtu: 0
+            multicast_config:
+              dr_priority:
+              igmp_static_joins:
+              igmp_version: IGMPV3
+              multicast_enabled: false
+            nat_address:
+            nat_address_v6:
+            nat_pools:
+            nat_port: 0
+            nat_port_v6: 0
+            nat_zone_id:
+            network_context_id:
+            parent: '1'
+            poe_enabled: false
+            power_usage_threshold: 0
+            pppoe_config:
+            scope: global
+            secondary_ip_configs:
+            service_link_config:
+            site_wan_interface_ids:
+            static_arp_configs:
+            sub_interface:
+              native_vlan: true
+              vlan_id: 10
+            switch_port_config:
+            tags:
+            type: subinterface
+            used_for: lan
+            vlan_config:
+          '1.2001':
+            admin_up: true
+            attached_lan_networks:
+            authentication_config:
+            bound_interfaces:
+            bypass_pair:
+            cellular_config:
+            description: Guest WIFI
+            devicemgmt_policysetstack_id:
+            dhcp_relay:
+            directed_broadcast: false
+            ethernet_port:
+              full_duplex: false
+              speed: 0
+            interface_profile_id:
+            ipfixcollectorcontext_id:
+            ipfixfiltercontext_id:
+            ipv4_config:
+              dhcp_config:
+              dns_v4_config:
+              routes:
+              static_config:
+                address: 192.168.{{ site_id }}.1/24
+              type: static
+            ipv6_config:
+            lldp_enabled: false
+            mac_address:
+            mtu: 0
+            multicast_config:
+              dr_priority:
+              igmp_static_joins:
+              igmp_version: IGMPV3
+              multicast_enabled: false
+            nat_address:
+            nat_address_v6:
+            nat_pools:
+            nat_port: 0
+            nat_port_v6: 0
+            nat_zone_id:
+            network_context_id: Guest-WIFI
+            parent: '1'
+            poe_enabled: false
+            power_usage_threshold: 0
+            pppoe_config:
+            scope: local
+            secondary_ip_configs:
+            service_link_config:
+            site_wan_interface_ids:
+            static_arp_configs:
+            sub_interface:
+              native_vlan: false
+              vlan_id: 2001
+            switch_port_config:
+            tags:
+            type: subinterface
+            used_for: lan
+            vlan_config:
+          '2':
+            admin_up: true
+            attached_lan_networks:
+            authentication_config:
+            bound_interfaces:
+            bypass_pair:
+            cellular_config:
+            description: {{ inet1.provider }} Internet
+            devicemgmt_policysetstack_id:
+            dhcp_relay:
+            directed_broadcast: false
+            ethernet_port:
+              full_duplex: {{ inet1.full_duplex }}
+              speed: {{ inet1.speed }}
+            interface_profile_id:
+            ipfixcollectorcontext_id:
+            ipfixfiltercontext_id:
+            ipv4_config:
+              dhcp_config:
+              dns_v4_config:
+                name_servers:
+                - 8.8.8.8
+                - 1.1.1.1
+              routes:
+              - destination: 0.0.0.0/0
+                via: {{ inet1.gateway }}
+              static_config:
+                address: {{ inet1.ip_cidr }}
+              type: static
+            ipv6_config:
+            lldp_enabled: false
+            mac_address:
+            mtu: 1500
+            multicast_config:
+              dr_priority:
+              igmp_static_joins:
+              igmp_version: IGMPV3
+              multicast_enabled: false
+            nat_address:
+            nat_address_v6:
+            nat_pools:
+            nat_port: 0
+            nat_port_v6: 0
+            nat_zone_id: internet
+            network_context_id:
+            parent:
+            poe_enabled: false
+            power_usage_threshold: 0
+            pppoe_config:
+            scope: local
+            secondary_ip_configs:
+            service_link_config:
+            site_wan_interface_ids:
+            - {{ site_abbreviation }}--DIA-{{ inet1.provider}}
+            static_arp_configs:
+            sub_interface:
+            switch_port_config:
+            tags:
+            type: port
+            used_for: public
+            vlan_config:
+          '3':
+            admin_up: true
+            attached_lan_networks:
+            authentication_config:
+            bound_interfaces:
+            bypass_pair:
+            cellular_config:
+            description: {{ inet2.provider }} Internet
+            devicemgmt_policysetstack_id:
+            dhcp_relay:
+            directed_broadcast: false
+            ethernet_port:
+              full_duplex: {{ inet2.full_duplex }}
+              speed: {{ inet2.speed }}
+            interface_profile_id:
+            ipfixcollectorcontext_id:
+            ipfixfiltercontext_id:
+            ipv4_config:
+              dhcp_config:
+              dns_v4_config:
+                name_servers:
+                - 8.8.8.8
+                - 1.1.1.1
+              routes:
+              - destination: 0.0.0.0/0
+                via: {{ inet2.gateway }}
+              static_config:
+                address: {{ inet2.ip_cidr }}
+              type: static
+            ipv6_config:
+            lldp_enabled: false
+            mac_address:
+            mtu: 1500
+            multicast_config:
+              dr_priority:
+              igmp_static_joins:
+              igmp_version: IGMPV3
+              multicast_enabled: false
+            nat_address:
+            nat_address_v6:
+            nat_pools:
+            nat_port: 0
+            nat_port_v6: 0
+            nat_zone_id: internet
+            network_context_id:
+            parent:
+            poe_enabled: false
+            power_usage_threshold: 0
+            pppoe_config:
+            scope: local
+            secondary_ip_configs:
+            service_link_config:
+            site_wan_interface_ids:
+            - {{ site_abbreviation }}--DIA-{{ inet2.provider}}
+            static_arp_configs:
+            sub_interface:
+            switch_port_config:
+            tags:
+            type: port
+            used_for: public
+            vlan_config:
+          '45':
+            admin_up: false
+            attached_lan_networks:
+            authentication_config:
+            bound_interfaces:
+            bypass_pair:
+              lan: '5'
+              lan_state_propagation: false
+              use_relay: true
+              wan: '4'
+            cellular_config:
+            description:
+            devicemgmt_policysetstack_id:
+            dhcp_relay:
+            directed_broadcast: false
+            ethernet_port:
+              full_duplex: false
+              speed: 0
+            interface_profile_id:
+            ipfixcollectorcontext_id:
+            ipfixfiltercontext_id:
+            ipv4_config:
+            ipv6_config:
+            lldp_enabled: false
+            mac_address:
+            mtu: 1500
+            multicast_config:
+              dr_priority:
+              igmp_static_joins:
+              igmp_version: IGMPV3
+              multicast_enabled: false
+            nat_address:
+            nat_address_v6:
+            nat_pools:
+            nat_port: 0
+            nat_port_v6: 0
+            nat_zone_id:
+            network_context_id:
+            parent:
+            poe_enabled: false
+            power_usage_threshold: 0
+            pppoe_config:
+            scope: local
+            secondary_ip_configs:
+            service_link_config:
+            site_wan_interface_ids:
+            static_arp_configs:
+            sub_interface:
+            switch_port_config:
+            tags:
+            type: bypasspair
+            used_for: none
+            vlan_config:
+          controller:
+            admin_up: true
+            attached_lan_networks:
+            authentication_config:
+            bound_interfaces:
+            bypass_pair:
+            cellular_config:
+            description: ''
+            devicemgmt_policysetstack_id:
+            dhcp_relay:
+            directed_broadcast: false
+            ethernet_port:
+              full_duplex: false
+              speed: 0
+            interface_profile_id:
+            ipfixcollectorcontext_id:
+            ipfixfiltercontext_id:
+            ipv4_config:
+              dhcp_config:
+              dns_v4_config:
+              routes:
+              static_config:
+              type: dhcp
+            ipv6_config:
+            lldp_enabled: false
+            mac_address:
+            mtu: 1500
+            multicast_config:
+            nat_address:
+            nat_address_v6:
+            nat_pools:
+            nat_port: 0
+            nat_port_v6: 0
+            nat_zone_id:
+            network_context_id:
+            parent:
+            poe_enabled: false
+            power_usage_threshold: 0
+            pppoe_config:
+            scope: local
+            secondary_ip_configs:
+            service_link_config:
+            site_wan_interface_ids:
+            static_arp_configs:
+            sub_interface:
+            switch_port_config:
+            tags:
+            type: port
+            used_for: none
+            vlan_config:
+        l3_direct_private_wan_forwarding: true
+        l3_lan_forwarding: true
+        led_config:
+        main_power_usage_threshold: 0
+        model_name: ion 2000
+        multicastglobalconfigs v2.1:
+        - bsm_enabled:
+          dr_priority:
+          igmp_protocol_parameters:
+          pim_protocol_parameters:
+          spt_switchover_enabled: true
+        nat_policysetstack_id:
+        network_policysetstack_id:
+        ntp v2.0:
+        - description: Default NTP template created by super user.
+          name: default
+          ntp_servers:
+          - host: 0.cloudgenix.pool.ntp.org
+            max_poll: 10
+            min_poll: 9
+            version: 4
+          - host: 1.cloudgenix.pool.ntp.org
+            max_poll: 10
+            min_poll: 9
+            version: 4
+          - host: 2.cloudgenix.pool.ntp.org
+            max_poll: 10
+            min_poll: 9
+            version: 4
+          - host: 3.cloudgenix.pool.ntp.org
+            max_poll: 10
+            min_poll: 9
+            version: 4
+          - host: time.nist.gov
+            max_poll: 15
+            min_poll: 13
+            version: 4
+          source_interface_ids:
+          tags:
+        override_indicator:
+        priority_policysetstack_id:
+        role: SPOKE
+        routing:
+          bgp:
+            global_config v2.2:
+              admin_distance: 20
+              adv_interval: 1
+              graceful_restart: false
+              hold_time: 90
+              keepalive_time: 30
+              local_as_num: '65000'
+              maximum_paths: 1
+              md5_secret:
+              multi_hop_limit: 1
+              peer_auth_type: none
+              peer_retry_time: 120
+              prefix_adv_type: aggregate-auto
+              prefix_adv_type_to_lan: default
+              prefixes_to_adv_to_wan:
+              router_id:
+              stalepath_time: 120
+          route_maps v2.1:
+            No-Advertise:
+              auto_generated: false
+              description: Tell Prisma not to advertise BGP routes to the Service
+                Connection
+              route_map_entries:
+              - continue_entry:
+                match:
+                  as_path_id:
+                  community_list_id:
+                  ip_next_hop_id:
+                  ip_prefix_list_id:
+                  tag: 0
+                order: 10
+                permit: true
+                set:
+                  additive_community: false
+                  as_path_prepend:
+                  community: no-advertise
+                  ip_next_hop:
+                  local_preference: 0
+                  tag: 0
+                  weight: 0
+              tags:
+          static v2.2:
+              {{ site_abbreviation }}-LAN:
+              address_family: ipv4
+              description: To Juniper Switch
+              destination_prefix: 10.{{ site_id }}.0.0/16
+              network_context_id:
+              nexthop_reachability_probe: false
+              nexthops:
+              - admin_distance: 1
+                nexthop_interface_id:
+                nexthop_ip: 172.30.{{ site_id }}.2
+                self: false
+              scope: global
+              tags:
+        serial_number: {{ ion_serial_number }}
+        snmp:
+          agent v2.1:
+          - description: {{ site_name }} ION 2000
+            system_contact: 
+            system_location: {{ site_abbreviation }}
+            tags:
+            v2_config:
+              community: {{ snmpv2_community }}
+              enabled: true
+            v3_config:
+          traps v2.0:
+          - description:
+            enabled: true
+            server_ip: {{ syslog_server }}
+            source_interface: '1.10'
+            tags:
+            v2_config:
+              community: {{ snmpv2_community }}
+            v3_config:
+            version: v2
+        software_version: 5.6.9-b3
+        spoke_ha_config:
+        state: bound
+        switch_config:
+        syslog v2.2:
+        - description: 
+          enable_flow_logging:
+          enabled: true
+          name: Syslog
+          protocol:
+          remote_ca_certificate:
+          server_fqdn:
+          server_ip:
+          server_port:
+          severity_level:
+          source_interface: '1.10'
+          syslog_profile_id: Syslog
+          tags:
+        tags:
+        tenant_id: '1961832340'
+        toolkit v2.2:
+          account_disable_interval: 5
+          inactive_interval: 15
+          otpkey_version: 1
+          retry_login_count: 5
+          ssh_enabled: true
+          ssh_outbound_enabled: false
+        vpn_to_vpn_forwarding: false
+    extended_tags:
+    lannetworks v3.1:
+      default_{{ site_name.lower() }}_220708721:
+        description:
+        ipv4_config:
+          default_routers:
+          dhcp_relay:
+          dhcp_server:
+          prefixes:
+          - 172.30.{{ site_id }}.0/29
+        network_context_id:
+        scope: global
+        tags:
+      default_{{ site_name.lower() }}_825621024:
+        description:
+        ipv4_config:
+          default_routers:
+          dhcp_relay:
+          dhcp_server:
+          prefixes:
+          - 10.{{ site_id }}.0.0/16
+        network_context_id:
+        scope: global
+        tags:
+    location:
+      description:
+      latitude: 0.0
+      longitude: 0.0
+    multicast_peer_group_id:
+    nat_policysetstack_id: Default-NATPolicySetStack
+    network_policysetstack_id: {{ path_policy }}
+    policy_set_id:
+    priority_policysetstack_id: Default QoS Simple Stack (Simple)
+    security_policyset_id:
+    security_policysetstack_id:
+    service_binding: {{ service_binding }}
+    tags:
+    waninterfaces v2.7:
+      {{ site_abbreviation }}--DIA-{{ inet1.provider}}:
+        bfd_mode: aggressive
+        bw_config_mode: manual
+        bwc_enabled: true
+        cost: 128
+        description:
+        label_id: {{ inet1.category }}
+        link_bw_down: {{ inet1.download }}
+        link_bw_up: {{ inet1.upload }}
+        lqm_config:
+          hub_site_ids:
+          inter_packet_gap: 100
+          statistic: min
+        lqm_enabled: true
+        network_id: {{ inet1.provider }}
+        network_type: publicwan
+        tags:
+        type: publicwan
+        use_for_application_reachability_probes:
+        use_for_controller_connections:
+        use_lqm_for_non_hub_paths:
+        vpnlink_configuration:
+      {{ site_abbreviation }}--DIA-{{ inet2.provider}}:
+        bfd_mode: aggressive
+        bw_config_mode: manual
+        bwc_enabled: true
+        cost: 128
+        description:
+        label_id:  {{ inet2.category }}
+        link_bw_down: {{ inet2.download }}
+        link_bw_up: {{ inet2.upload }}
+        lqm_config:
+          hub_site_ids:
+          inter_packet_gap: 100
+          statistic: min
+        lqm_enabled: true
+        network_id: {{ inet2.provider }}
+        network_type: publicwan
+        tags:
+        type: publicwan
+        use_for_application_reachability_probes:
+        use_for_controller_connections:
+        use_lqm_for_non_hub_paths:
+        vpnlink_configuration:

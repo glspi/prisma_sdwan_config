@@ -40,16 +40,7 @@ import datetime
 import logging
 import errno
 
-
-# CloudGenix Python SDK
-try:
-    import cloudgenix
-    jdout = cloudgenix.jdout
-    jd = cloudgenix.jd
-except ImportError as e:
-    cloudgenix = None
-    sys.stderr.write("ERROR: 'cloudgenix' python module required. (try 'pip install cloudgenix').\n {0}\n".format(e))
-    sys.exit(1)
+from prisma_sase import API as prisma_api
 
 # import module specific
 try:
@@ -60,31 +51,6 @@ except Exception:
     from cloudgenix_config.cloudgenix_config import throw_error, throw_warning, name_lookup_in_template, extract_items, build_lookup_dict, \
     check_name, nameable_interface_types, skip_interface_list, get_function_default_args
     from cloudgenix_config.cloudgenix_config import __version__ as import_cloudgenix_config_version
-
-# Check config file, in cwd.
-sys.path.append(os.getcwd())
-try:
-    from cloudgenix_settings import CLOUDGENIX_AUTH_TOKEN
-
-except ImportError:
-    # will get caught below.
-    # Get AUTH_TOKEN/X_AUTH_TOKEN from env variable, if it exists. X_AUTH_TOKEN takes priority.
-    if "X_AUTH_TOKEN" in os.environ:
-        CLOUDGENIX_AUTH_TOKEN = os.environ.get('X_AUTH_TOKEN')
-    elif "AUTH_TOKEN" in os.environ:
-        CLOUDGENIX_AUTH_TOKEN = os.environ.get('AUTH_TOKEN')
-    else:
-        # not set
-        CLOUDGENIX_AUTH_TOKEN = None
-
-try:
-    from cloudgenix_settings import CLOUDGENIX_USER, CLOUDGENIX_PASSWORD
-
-except ImportError:
-    # will get caught below
-    CLOUDGENIX_USER = None
-    CLOUDGENIX_PASSWORD = None
-
 
 # python 2 and 3 handling
 if sys.version_info < (3,):
@@ -218,7 +184,7 @@ SDK_VERSION_REQUIRED = '5.6.1b2'  # Version when these fields were introduced in
 CONFIG_VERSION_REQUIRED = '1.6.0b2'
 # Define constructor globally for now.
 sdk = None
-jd = cloudgenix.jd
+#jd = cloudgenix.jd
 
 # Set logging to use function name
 logger = logging.getLogger(__name__)
@@ -1864,12 +1830,13 @@ def pull_config_sites(sites, output_filename, output_multi=None, passed_sdk=None
     SITES = sites_cache
     CONFIG[SITES_STR] = {}
 
-    sdk_version = cloudgenix.version
-    if 'v' in sdk_version:
-        sdk_version.replace('v', '')
+    # sdk_version = cloudgenix.version
+    # if 'v' in sdk_version:
+    #     sdk_version.replace('v', '')
     config_version = import_cloudgenix_config_version
     if 'v' in config_version:
         config_version.replace('v', '')
+    sdk_version = "5"
 
     if sites is None:
         # no site specified.
@@ -2075,16 +2042,22 @@ def go():
 
     # Allow Controller modification and debug level sets.
     controller_group = parser.add_argument_group('API', 'These options change how this program connects to the API.')
-    controller_group.add_argument("--controller", "-C",
-                                  help="Controller URI, ex. https://api.elcapitan.cloudgenix.com",
-                                  default=None)
+    # controller_group.add_argument("--controller", "-C",
+    #                               help="Controller URI, ex. https://api.elcapitan.cloudgenix.com",
+    #                               default=None)
 
     login_group = parser.add_argument_group('Login', 'These options allow skipping of interactive login')
-    login_group.add_argument("--email", "-E", help="Use this email as User Name instead of cloudgenix_settings.py "
-                                                   "or prompting",
+    # login_group.add_argument("--email", "-E", help="Use this email as User Name instead of cloudgenix_settings.py "
+    #                                                "or prompting",
+    #                          default=None)
+    # login_group.add_argument("--password", "-PW", help="Use this Password instead of cloudgenix_settings.py "
+    #                                                    "or prompting",
+    #                          default=None)
+    login_group.add_argument("--tsg-id", "-T", help="TSG ID (123456789)",
                              default=None)
-    login_group.add_argument("--password", "-PW", help="Use this Password instead of cloudgenix_settings.py "
-                                                       "or prompting",
+    login_group.add_argument("--client-id", "-C", help="client_id (user@123456989.iam.panserviceaccount.com)",
+                             default=None)
+    login_group.add_argument("--client-secret", "-secret", help="client_secret (xyzabce-ab12-12ce-1234-xyzabca123487)",
                              default=None)
     login_group.add_argument("--insecure", "-I", help="Do not verify SSL certificate",
                              action='store_true',
@@ -2102,6 +2075,8 @@ def go():
     debug_group.add_argument("--version", help="Dump Version(s) of script and modules and exit.", action='version',
                              version=dump_version())
 
+
+
     args = vars(parser.parse_args())
 
     REPORT_ID = args['leave_implicit_ids']
@@ -2110,16 +2085,20 @@ def go():
     filename = args['output']
     multi_output = args['multi_output']
     normalize = args['normalize']
+    TSG_ID = args['tsg_id']
+    CLIENT_ID = args['client_id']
+    CLIENT_SECRET = args['client_secret']
 
     # Build SDK Constructor
-    if args['controller'] and args['insecure']:
-        sdk = cloudgenix.API(controller=args['controller'], ssl_verify=False)
-    elif args['controller']:
-        sdk = cloudgenix.API(controller=args['controller'])
-    elif args['insecure']:
-        sdk = cloudgenix.API(ssl_verify=False)
-    else:
-        sdk = cloudgenix.API()
+    sdk = prisma_api()
+    # if args['controller'] and args['insecure']:
+    #     sdk = cloudgenix.API(controller=args['controller'], ssl_verify=False)
+    # elif args['controller']:
+    #     sdk = cloudgenix.API(controller=args['controller'])
+    # elif args['insecure']:
+    #     sdk = cloudgenix.API(ssl_verify=False)
+    # else:
+    #     sdk = cloudgenix.API()
 
     # check for region ignore
     if args['ignore_region']:
@@ -2128,41 +2107,28 @@ def go():
     if args['debug']:
         sdk.set_debug(int(args['debug']))
 
-    # login logic. Use cmdline if set, use AUTH_TOKEN next, finally user/pass from config file, then prompt.
-    # figure out user
-    if args["email"]:
-        user_email = args["email"]
-    elif CLOUDGENIX_USER:
-        user_email = CLOUDGENIX_USER
-    else:
-        user_email = None
+    # Get Creds
+    creds = {"tsg_id": TSG_ID, "client_id": CLIENT_ID, "client_secret": CLIENT_SECRET}
 
-    # figure out password
-    if args["password"]:
-        user_password = args["password"]
-    elif CLOUDGENIX_PASSWORD:
-        user_password = CLOUDGENIX_PASSWORD
-    else:
-        user_password = None
+    try:
+        for cred_name in creds:
+            if not creds.get(cred_name):
+                if cred_name.upper() in os.environ:
+                    creds[cred_name] = os.environ.get(cred_name.upper)
+                else:
+                    creds[cred_name] = input(f"Enter the {cred_name.upper()}: ") 
+    except KeyboardInterrupt:
+        print("Ctrl + C pressed, canceling..\n")
 
-    # check for token
-    if CLOUDGENIX_AUTH_TOKEN and not args["email"] and not args["password"]:
-        sdk.interactive.use_token(CLOUDGENIX_AUTH_TOKEN)
-        if sdk.tenant_id is None:
-            throw_error("AUTH_TOKEN login failure, please check token.")
-
-    else:
-        while sdk.tenant_id is None:
-            sdk.interactive.login(user_email, user_password)
-            # clear after one failed login, force relogin.
-            if not sdk.tenant_id:
-                user_email = None
-                user_password = None
+    # Login
+    sdk.interactive.login_secret(**creds)
+    pull_config_sites(args['sites'], filename, output_multi=multi_output, normalize=normalize,
+                    no_header=args['no_header'])
 
     # pull the specified sites config
     pull_config_sites(args['sites'], filename, output_multi=multi_output, normalize=normalize,
                       no_header=args['no_header'])
-
+        
     return
 
 
