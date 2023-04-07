@@ -34,7 +34,7 @@ sites v4.7:
       static_mappings:
       subnet: 192.168.{{ site_id }}.0/24
       tags:
-    - broadcast_address: 10.{{ site_id }}.0.255
+    - broadcast_address: 10.{{ site_id }}.30.255
       custom_options:
       default_lease_time: 43200
       description: {{ site_name }}
@@ -42,14 +42,14 @@ sites v4.7:
       dns_servers:
       - 172.30.{{ site_id }}.1
       domain_name: {{ dhcp_domain_name }}
-      gateway: 10.{{ site_id }}.0.254
+      gateway: 10.{{ site_id }}.30.254
       ip_ranges:
-      - end_ip: 10.{{ site_id }}.0.220
-        start_ip: 10.{{ site_id }}.0.20
+      - end_ip: 10.{{ site_id }}.30.220
+        start_ip: 10.{{ site_id }}.30.20
       max_lease_time: 86400
       network_context_id:
       static_mappings:
-      subnet: 10.{{ site_id }}.0.0/24
+      subnet: 10.{{ site_id }}.30.0/24
       tags:
     - broadcast_address: 10.{{ site_id }}.60.255
       custom_options:
@@ -123,7 +123,7 @@ sites v4.7:
           element_id: {{ site_abbreviation }}-ION
           enabled: true
           max_concurrent_dns_queries: 150
-          name: ION DNS
+          name: '{{ site_abbreviation }} DNS'
           tags:
         element_security_zones v2.0: []
         fips_mode: non_fips

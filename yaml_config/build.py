@@ -143,11 +143,11 @@ def build_site(args: argparse.Namespace) -> None:
         sys.exit()
 
     # Save output
+    output_file = f"{args.n}.yml"
     if args.n.lower() != my_site_info["site_name"].lower():
         print(
-            f"\nWarning: '{args.n}' does not match site_name in site information ({my_site_info['site_name']})"
+            f"\nWarning: '{args.n}' does not match site_name in {output_file} ({my_site_info['site_name']})"
         )
-    output_file = f"{args.n}.yml"
     with open(output_file, "w") as fout:
         fout.write(new_site)
     print(f"\nSuccess!\n{output_file} created in local directory.\n")
