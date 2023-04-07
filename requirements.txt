@@ -1,2 +1,5 @@
--r git+https://github.com/PaloAltoNetworks/prisma-sase-sdk-python.git
+git+https://github.com/PaloAltoNetworks/prisma-sase-sdk-python.git
+cloudgenix >= 6.1.1b1, < 6.1.3b1
 PyYAML>=5.3
+jinja2==3.1.2         
+typer==0.7.0            

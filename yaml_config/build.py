@@ -90,7 +90,7 @@ def get_site_information(filename: str = None) -> Dict[str, str]:
             my_site_info = yaml.safe_load(fin)
     except FileNotFoundError:
         response = input(
-            f"\nFile '{filename}' not found! Enter Site Information Maunally? (y/n): "
+            f"\nFile '{filename}' not found! Enter Site Information Manually? (y/n): "
         )
         if response.lower() not in ("y", "yes"):
             print("Exiting..\n")

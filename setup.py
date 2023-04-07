@@ -3,8 +3,8 @@ from setuptools import setup
 with open('README.md') as f:
     long_description = f.read()
 
-setup(name='cloudgenix_config',
-      version='1.9.0b2',
+setup(name='prisma_sdwan_config',
+      version='0.0.1',
       description='Configuration exporting and Continuous Integration (CI) capable configuration importing for the '
                   'Prisma Sase Cloud Controller.',
       long_description=long_description,
