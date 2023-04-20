@@ -100,16 +100,16 @@ def get_site_information(filename: str = None) -> Dict[str, str]:
             my_site_info = prompt_for_site_information()
 
     # # Set physical port to 100/full if circuit is 100m/100m
-    # for inet in ("inet1", "inet2"):
-    #     if (
-    #         str(my_site_info[inet].get("download")) == "100"
-    #         and str(my_site_info[inet].get("upload")) == "100"
-    #     ):
-    #         my_site_info[inet]["speed"] = "100"
-    #         my_site_info[inet]["full_duplex"] = True
-    #     else:
-    my_site_info[inet]["speed"] = "0"
-    my_site_info[inet]["full_duplex"] = False
+    for inet in ("inet1", "inet2"):
+        # if (
+        #     str(my_site_info[inet].get("download")) == "100"
+        #     and str(my_site_info[inet].get("upload")) == "100"
+        # ):
+        #     my_site_info[inet]["speed"] = "100"
+        #     my_site_info[inet]["full_duplex"] = True
+        # else:
+        my_site_info[inet]["speed"] = "0"
+        my_site_info[inet]["full_duplex"] = False
 
     return my_site_info
 
