@@ -99,17 +99,17 @@ def get_site_information(filename: str = None) -> Dict[str, str]:
             my_site_info = REQUIRED_VARS
             my_site_info = prompt_for_site_information()
 
-    # Set physical port to 100/full if circuit is 100m/100m
-    for inet in ("inet1", "inet2"):
-        if (
-            str(my_site_info[inet].get("download")) == "100"
-            and str(my_site_info[inet].get("upload")) == "100"
-        ):
-            my_site_info[inet]["speed"] = "100"
-            my_site_info[inet]["full_duplex"] = True
-        else:
-            my_site_info[inet]["speed"] = "0"
-            my_site_info[inet]["full_duplex"] = False
+    # # Set physical port to 100/full if circuit is 100m/100m
+    # for inet in ("inet1", "inet2"):
+    #     if (
+    #         str(my_site_info[inet].get("download")) == "100"
+    #         and str(my_site_info[inet].get("upload")) == "100"
+    #     ):
+    #         my_site_info[inet]["speed"] = "100"
+    #         my_site_info[inet]["full_duplex"] = True
+    #     else:
+    my_site_info[inet]["speed"] = "0"
+    my_site_info[inet]["full_duplex"] = False
 
     return my_site_info
 
@@ -144,6 +144,9 @@ def build_site(args: argparse.Namespace) -> None:
 
     # Save output
     output_file = f"{args.n}.yml"
+    if os.path.exists(output_file):
+        output_file = f"config-{output_file}"
+
     if args.n.lower() != my_site_info["site_name"].lower():
         print(
             f"\nWarning: '{args.n}' does not match site_name in {output_file} ({my_site_info['site_name']})"
