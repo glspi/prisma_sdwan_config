@@ -16109,8 +16109,9 @@ def go():
                     creds[cred_name] = os.environ.get(cred_name.upper)
                 else:
                     if cred_name == "client_secret":
-                        creds[cred_name] = getpass(f"Enter the {cred_name.upper()}: ")
-                    creds[cred_name] = input(f"Enter the {cred_name.upper()}: ")
+                        creds[cred_name] = getpass(f"Enter the {cred_name.upper()} (output will not be shown): ")
+                    else:
+                        creds[cred_name] = input(f"Enter the {cred_name.upper()}: ")
     except KeyboardInterrupt:
         print("Ctrl + C pressed, canceling..\n")
 

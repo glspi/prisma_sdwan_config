@@ -4,7 +4,7 @@ with open('README.md') as f:
     long_description = f.read()
 
 setup(name='prisma_sdwan_config',
-      version='0.0.5',
+      version='0.0.6',
       description='Configuration exporting and Continuous Integration (CI) capable configuration importing for the '
                   'Prisma Sase Cloud Controller.',
       long_description=long_description,
