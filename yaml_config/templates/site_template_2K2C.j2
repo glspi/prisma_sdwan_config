@@ -605,7 +605,7 @@ sites v4.7:
                   weight: 0
               tags:
           static v2.2:
-              {{ site_abbreviation }}-LAN:
+            {{ site_abbreviation }}-LAN:
               address_family: ipv4
               description: To Juniper Switch
               destination_prefix: 10.{{ site_id }}.0.0/16
@@ -676,7 +676,7 @@ sites v4.7:
           dhcp_relay:
           dhcp_server:
           prefixes:
-          - 172.30.{{ site_id }}.0/29
+          - 10.{{ site_id }}.0.0/16
         network_context_id:
         scope: global
         tags:
@@ -687,7 +687,7 @@ sites v4.7:
           dhcp_relay:
           dhcp_server:
           prefixes:
-          - 10.{{ site_id }}.0.0/16
+          - 172.30.{{ site_id }}.0/29
         network_context_id:
         scope: global
         tags:
