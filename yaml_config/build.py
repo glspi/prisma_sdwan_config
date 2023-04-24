@@ -147,7 +147,7 @@ def build_site(args: argparse.Namespace) -> None:
     output_file = f"{args.n}.yml"
     if os.path.exists(output_file):
         output_file = f"config-{output_file}"
-        print(f"Warning, filename already exists, creating {outputfile} instead.")
+        print(f"Warning, filename already exists, creating {output_file} instead.")
 
     if args.n.lower() != my_site_info["site_name"].lower():
         print(

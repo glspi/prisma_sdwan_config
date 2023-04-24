@@ -16116,7 +16116,11 @@ def go():
         print("Ctrl + C pressed, canceling..\n")
 
     # Login
-    sdk.interactive.login_secret(**creds)
+    try:
+        sdk.interactive.login_secret(**creds)
+    except Exception as e:
+        print("Error logging in...bad credentials maybe?")
+        sys.exit()
 
     # Do the real work
     try:
