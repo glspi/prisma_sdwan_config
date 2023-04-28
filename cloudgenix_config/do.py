@@ -11164,7 +11164,7 @@ def do_site(
                     "interfaces",
                     sdk.put.interfaces,
                     default={},
-                    sdk_or_yaml=apiversion,
+                    sdk_or_yaml="yaml",
                 )
                 syslog_version = use_sdk_yaml_version(
                     config_element,
