@@ -15,7 +15,6 @@ setup(name='prisma_sdwan_config',
       license='MIT',
       include_package_data=True,
       install_requires=[
-            'cloudgenix >= 6.1.1b1, < 6.1.3b1',
             'PyYAML >= 5.3',
             'jinja2==3.1.2',
             'typer==0.7.0',

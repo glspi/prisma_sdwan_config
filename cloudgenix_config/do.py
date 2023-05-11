@@ -42,18 +42,19 @@ import time
 from getpass import getpass
 
 import yaml
-from prisma_sase import API, jd
+#from prisma_sase import API, jd
 
 # CloudGenix Python SDK
 try:
-    import cloudgenix
+    # import cloudgenix
 
-    jdout = cloudgenix.jdout
-    jd = cloudgenix.jd
+    # jdout = cloudgenix.jdout
+    # jd = cloudgenix.jd
+    from prisme_sase import API, jd, jdout
 except ImportError as e:
-    cloudgenix = None
+    prisma_sase = None
     sys.stderr.write(
-        "ERROR: 'cloudgenix' python module required. (try 'pip install cloudgenix').\n {0}\n".format(
+        "ERROR: 'prisma_sase' python module required. (try 'pip install').\n {0}\n".format(
             e
         )
     )
@@ -384,7 +385,7 @@ apiversion = "sdk"
 
 # CloudGenix SDK and JSON DUMP helper
 sdk = None
-jd = cloudgenix.jd
+# jd = cloudgenix.jd
 
 # logging
 logger = logging.getLogger(__name__)
@@ -407,7 +408,7 @@ def dump_version():
     except NameError:
         cloudgenix_config_ver = "Unknown"
     try:
-        cloudgenix_ver = cloudgenix.version
+        cloudgenix_ver = prisma_sase.version
     except NameError:
         cloudgenix_ver = "Unknown"
     try:
@@ -930,7 +931,7 @@ def parse_root_config(data_file):
         yml_ver = str(config_lower_get(data_file, "version"))
 
         if (
-            cloudgenix.version.replace("v", "") >= SDK_VERSION_REQUIRED
+            prisma_sase.version.replace("v", "") >= SDK_VERSION_REQUIRED
             and import_cloudgenix_config_version.replace("v", "")
             >= CONFIG_VERSION_REQUIRED
         ):
