@@ -6,10 +6,25 @@ import textwrap
 from typing import Dict
 
 import yaml
-from jinja2 import Environment, PackageLoader, StrictUndefined
+from jinja2 import Environment, FileSystemLoader, PackageLoader, StrictUndefined
 from jinja2.exceptions import UndefinedError
 
 from yaml_config.settings import REQUIRED_VARS, TEMPLATES
+
+
+def get_custom_template(template_type: str, site_info: dict[str, str]) -> str:
+    """
+    Get custom template and validate we have the required variables
+    """
+    filename = input("Please enter the custom template name: ")
+    try:
+        with open(filename) as fin:
+            _ = fin.read()
+    except FileNotFoundError:
+        print(f"{filename} was not found! Exiting..")
+        sys.exit()
+
+    return filename
 
 
 def validate_template(template_type: str, site_info: Dict[str, str]) -> str:
@@ -123,11 +138,16 @@ def build_site(args: argparse.Namespace) -> None:
 
     # Get site information & template
     my_site_info = get_site_information(filename=args.info)
-    template_name = validate_template(args.t, my_site_info)
+    if args.t == "Custom":
+        template_name = get_custom_template(args.t, my_site_info)
+        loader = FileSystemLoader("")
+    else:
+        template_name = validate_template(args.t, my_site_info)
+        loader = PackageLoader("yaml_config", "templates")
 
     # Load template
     j2_env = Environment(
-        loader=PackageLoader("yaml_config", "templates"),
+        loader=loader,
         lstrip_blocks=True,
         trim_blocks=True,
         undefined=StrictUndefined,
@@ -170,8 +190,9 @@ def go():
         Template Types:
         1K1C    -   ION 1000, 1 Circuit (default)
         1K2C    -   ION 1000, 2 Circuits
-        2K1C    -   ION 2000, 1 Circuit (untested)
+        2K1C    -   ION 2000, 1 Circuit
         2K2C    -   ION 2000, 2 Circuits
+        Custom  -   You provide the jinja template (not supported)
     """
         ),
     )
@@ -185,7 +206,7 @@ def go():
         "-t",
         help="Optional Template Type (default: 1K1C)",
         default="1K1C",
-        choices=["1K1C", "1K2C", "2K1C", "2K2C"],
+        choices=["1K1C", "1K2C", "2K1C", "2K2C", "Custom"],
     )
     parser.add_argument(
         "-i",
