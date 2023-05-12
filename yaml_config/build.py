@@ -192,7 +192,7 @@ def go():
         1K2C    -   ION 1000, 2 Circuits
         2K1C    -   ION 2000, 1 Circuit
         2K2C    -   ION 2000, 2 Circuits
-        Custom  -   You provide the jinja template (not supported)
+        Custom  -   You provide the jinja template (DIY)
     """
         ),
     )
