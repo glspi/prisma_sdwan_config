@@ -47,10 +47,11 @@ import yaml
 # CloudGenix Python SDK
 try:
     # import cloudgenix
+    import prisma_sase
 
     # jdout = cloudgenix.jdout
     # jd = cloudgenix.jd
-    from prisme_sase import API, jd, jdout
+    from prisma_sase import API, jd, jdout
 except ImportError as e:
     prisma_sase = None
     sys.stderr.write(
@@ -11165,7 +11166,7 @@ def do_site(
                     "interfaces",
                     sdk.put.interfaces,
                     default={},
-                    sdk_or_yaml="yaml",
+                    sdk_or_yaml=apiversion,
                 )
                 syslog_version = use_sdk_yaml_version(
                     config_element,

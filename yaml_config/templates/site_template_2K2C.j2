@@ -15,8 +15,9 @@ sites v4.7:
       street2:
     admin_state: disabled
     description: {{ site_abbreviation }}
-    dhcpservers v2.1:
-    - broadcast_address: 192.168.{{ site_id }}.255
+    dhcpservers v2.2:
+    - address_family: ipv4
+      broadcast_address: 192.168.{{ site_id }}.255
       custom_options:
       default_lease_time: 43200
       description: Guest Wireless
@@ -34,7 +35,8 @@ sites v4.7:
       static_mappings:
       subnet: 192.168.{{ site_id }}.0/24
       tags:
-    - broadcast_address: 10.{{ site_id }}.30.255
+    - address_family: ipv4
+      broadcast_address: 10.{{ site_id }}.30.255
       custom_options:
       default_lease_time: 43200
       description: {{ site_name }}
@@ -51,7 +53,8 @@ sites v4.7:
       static_mappings:
       subnet: 10.{{ site_id }}.30.0/24
       tags:
-    - broadcast_address: 10.{{ site_id }}.60.255
+    - address_family: ipv4
+      broadcast_address: 10.{{ site_id }}.60.255
       custom_options:
       default_lease_time: 43200
       description: Management
@@ -68,7 +71,8 @@ sites v4.7:
       static_mappings:
       subnet: 10.{{ site_id }}.60.0/24
       tags:
-    - broadcast_address: 10.{{ site_id }}.70.255
+    - address_family: ipv4
+      broadcast_address: 10.{{ site_id }}.70.255
       custom_options:
       default_lease_time: 43200
       description: Wireless
@@ -129,7 +133,7 @@ sites v4.7:
         element_security_zones v2.0: []
         fips_mode: non_fips
         fips_mode_change_start_time: 0
-        interfaces v4.14:
+        interfaces v4.15:
           '1':
             admin_up: true
             attached_lan_networks:
@@ -166,6 +170,7 @@ sites v4.7:
             nat_zone_id:
             network_context_id:
             parent:
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -221,6 +226,7 @@ sites v4.7:
             nat_zone_id:
             network_context_id:
             parent: '1'
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -278,6 +284,7 @@ sites v4.7:
             nat_zone_id:
             network_context_id: Guest-WIFI
             parent: '1'
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -340,6 +347,7 @@ sites v4.7:
             nat_zone_id: internet
             network_context_id:
             parent:
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -401,6 +409,7 @@ sites v4.7:
             nat_zone_id: internet
             network_context_id:
             parent:
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -455,6 +464,7 @@ sites v4.7:
             nat_zone_id:
             network_context_id:
             parent:
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -505,6 +515,7 @@ sites v4.7:
             nat_zone_id:
             network_context_id:
             parent:
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -668,7 +679,7 @@ sites v4.7:
           ssh_outbound_enabled: false
         vpn_to_vpn_forwarding: false
     extended_tags:
-    lannetworks v3.1:
+    lannetworks v3.2:
       default_{{ site_name.lower() }}_220708721:
         description:
         ipv4_config:

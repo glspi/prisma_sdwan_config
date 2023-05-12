@@ -4,7 +4,7 @@ with open('README.md') as f:
     long_description = f.read()
 
 setup(name='prisma_sdwan_config',
-      version='0.0.8',
+      version='0.0.9',
       description='Configuration exporting and Continuous Integration (CI) capable configuration importing for the '
                   'Prisma Sase Cloud Controller.',
       long_description=long_description,
@@ -18,7 +18,7 @@ setup(name='prisma_sdwan_config',
             'PyYAML >= 5.3',
             'jinja2==3.1.2',
             'typer==0.7.0',
-            'prisma_sase @ git+https://github.com/PaloAltoNetworks/prisma-sase-sdk-python.git'
+            'prisma_sase @ git+https://github.com/glspi/prisma_sase_sdwan.git'
       ],
       packages=['cloudgenix_config', 'yaml_config'],
       entry_points={

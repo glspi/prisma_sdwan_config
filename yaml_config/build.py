@@ -171,7 +171,7 @@ def go():
         1K1C    -   ION 1000, 1 Circuit (default)
         1K2C    -   ION 1000, 2 Circuits
         2K1C    -   ION 2000, 1 Circuit (untested)
-        2K2C    -   ION 2000, 2 Circuits (untested)
+        2K2C    -   ION 2000, 2 Circuits
     """
         ),
     )

@@ -35,7 +35,8 @@ import re
 import inspect
 
 # CloudGenix SDK should have been checked present by other imports.
-from cloudgenix import jdout, jdout_detailed
+# from cloudgenix import jdout, jdout_detailed
+from prisma_sase import jdout, jdout_detailed
 
 from .default_interfaces import *
 

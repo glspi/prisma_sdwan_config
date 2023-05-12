@@ -15,8 +15,9 @@ sites v4.7:
       street2:
     admin_state: disabled
     description: {{ site_abbreviation }}
-    dhcpservers v2.1:
-    - broadcast_address: 192.168.{{ site_id }}.255
+    dhcpservers v2.2:
+    - address_family: ipv4
+      broadcast_address: 192.168.{{ site_id }}.255
       custom_options:
       default_lease_time: 43200
       description: Guest Wireless
@@ -34,7 +35,8 @@ sites v4.7:
       static_mappings:
       subnet: 192.168.{{ site_id }}.0/24
       tags:
-    - broadcast_address: 10.{{ site_id }}.30.255
+    - address_family: ipv4
+      broadcast_address: 10.{{ site_id }}.30.255
       custom_options:
       default_lease_time: 43200
       description: {{ site_name }}
@@ -51,7 +53,8 @@ sites v4.7:
       static_mappings:
       subnet: 10.{{ site_id }}.30.0/24
       tags:
-    - broadcast_address: 10.{{ site_id }}.60.255
+    - address_family: ipv4
+      broadcast_address: 10.{{ site_id }}.60.255
       custom_options:
       default_lease_time: 43200
       description: Management
@@ -68,7 +71,8 @@ sites v4.7:
       static_mappings:
       subnet: 10.{{ site_id }}.60.0/24
       tags:
-    - broadcast_address: 10.{{ site_id }}.70.255
+    - address_family: ipv4
+      broadcast_address: 10.{{ site_id }}.70.255
       custom_options:
       default_lease_time: 43200
       description: Wireless
@@ -129,7 +133,7 @@ sites v4.7:
         element_security_zones v2.0: []
         fips_mode: non_fips
         fips_mode_change_start_time: 0
-        interfaces v4.14:
+        interfaces v4.15:
           '1':
             admin_up: true
             attached_lan_networks:
@@ -166,6 +170,7 @@ sites v4.7:
             nat_zone_id:
             network_context_id:
             parent:
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -221,6 +226,7 @@ sites v4.7:
             nat_zone_id:
             network_context_id:
             parent: '1'
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -278,6 +284,7 @@ sites v4.7:
             nat_zone_id:
             network_context_id: Guest-WIFI
             parent: '1'
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -340,6 +347,7 @@ sites v4.7:
             nat_zone_id: internet
             network_context_id:
             parent:
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -357,65 +365,59 @@ sites v4.7:
             vlan_config:
           '3':
             admin_up: false
-          #   attached_lan_networks:
-          #   authentication_config:
-          #   bound_interfaces:
-          #   bypass_pair:
-          #   cellular_config:
-          #   description: {{ inet2.provider }} Internet
-          #   devicemgmt_policysetstack_id:
-          #   dhcp_relay:
-          #   directed_broadcast: false
-          #   ethernet_port:
-          #     full_duplex: {{ inet2.full_duplex }}
-          #     speed: {{ inet2.speed }}
-          #   interface_profile_id:
-          #   ipfixcollectorcontext_id:
-          #   ipfixfiltercontext_id:
-          #   ipv4_config:
-          #     dhcp_config:
-          #     dns_v4_config:
-          #       name_servers:
-          #       - 8.8.8.8
-          #       - 1.1.1.1
-          #     routes:
-          #     - destination: 0.0.0.0/0
-          #       via: {{ inet2.gateway }}
-          #     static_config:
-          #       address: {{ inet2.ip_cidr }}
-          #     type: static
-          #   ipv6_config:
-          #   lldp_enabled: false
-          #   mac_address:
-          #   mtu: 1500
-          #   multicast_config:
-          #     dr_priority:
-          #     igmp_static_joins:
-          #     igmp_version: IGMPV3
-          #     multicast_enabled: false
-          #   nat_address:
-          #   nat_address_v6:
-          #   nat_pools:
-          #   nat_port: 0
-          #   nat_port_v6: 0
-          #   nat_zone_id: internet
-          #   network_context_id:
-          #   parent:
-          #   poe_enabled: false
-          #   power_usage_threshold: 0
-          #   pppoe_config:
-          #   scope: local
-          #   secondary_ip_configs:
-          #   service_link_config:
-          #   site_wan_interface_ids:
-          #   - {{ site_abbreviation }}--DIA-{{ inet2.provider}}
-          #   static_arp_configs:
-          #   sub_interface:
-          #   switch_port_config:
-          #   tags:
-          #   type: port
-          #   used_for: public
-          #   vlan_config:
+            attached_lan_networks:
+            authentication_config:
+            bound_interfaces:
+            bypass_pair:
+            cellular_config:
+            description:
+            devicemgmt_policysetstack_id:
+            dhcp_relay:
+            directed_broadcast: false
+            ethernet_port:
+              full_duplex: false
+              speed: 0
+            interface_profile_id:
+            ipfixcollectorcontext_id:
+            ipfixfiltercontext_id:
+            ipv4_config:
+              dhcp_config:
+              dns_v4_config:
+              routes:
+              static_config:
+              type: dhcp
+            ipv6_config:
+            lldp_enabled: false
+            mac_address:
+            mtu: 1500
+            multicast_config:
+              dr_priority:
+              igmp_static_joins:
+              igmp_version: IGMPV3
+              multicast_enabled: false
+            nat_address:
+            nat_address_v6:
+            nat_pools:
+            nat_port: 0
+            nat_port_v6: 0
+            nat_zone_id:
+            network_context_id:
+            parent:
+            peer_bypasspair_wan_port_type: none
+            poe_enabled: false
+            power_usage_threshold: 0
+            pppoe_config:
+            scope: local
+            secondary_ip_configs:
+            service_link_config:
+            site_wan_interface_ids:
+            static_arp_configs:
+            sub_interface:
+            switch_port_config:
+            tags:
+            type: port
+            used_for: public
+            vlan_config:
           '45':
             admin_up: false
             attached_lan_networks:
@@ -455,6 +457,7 @@ sites v4.7:
             nat_zone_id:
             network_context_id:
             parent:
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -505,6 +508,7 @@ sites v4.7:
             nat_zone_id:
             network_context_id:
             parent:
+            peer_bypasspair_wan_port_type: none
             poe_enabled: false
             power_usage_threshold: 0
             pppoe_config:
@@ -580,30 +584,6 @@ sites v4.7:
               prefixes_to_adv_to_wan:
               router_id:
               stalepath_time: 120
-          route_maps v2.1:
-            No-Advertise:
-              auto_generated: false
-              description: Tell Prisma not to advertise BGP routes to the Service
-                Connection
-              route_map_entries:
-              - continue_entry:
-                match:
-                  as_path_id:
-                  community_list_id:
-                  ip_next_hop_id:
-                  ip_prefix_list_id:
-                  tag: 0
-                order: 10
-                permit: true
-                set:
-                  additive_community: false
-                  as_path_prepend:
-                  community: no-advertise
-                  ip_next_hop:
-                  local_preference: 0
-                  tag: 0
-                  weight: 0
-              tags:
           static v2.2:
             {{ site_abbreviation }}-LAN:
               address_family: ipv4
@@ -668,7 +648,7 @@ sites v4.7:
           ssh_outbound_enabled: false
         vpn_to_vpn_forwarding: false
     extended_tags:
-    lannetworks v3.1:
+    lannetworks v3.2:
       default_{{ site_name.lower() }}_220708721:
         description:
         ipv4_config:
