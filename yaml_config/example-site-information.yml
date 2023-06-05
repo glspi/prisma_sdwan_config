@@ -4,6 +4,7 @@ site_abbreviation: MNS
 site_id: 77                       # Site ID: 77 creates Site Subnet: 10.77.0.0/16
 ion_model: 1000                   # 1000 or 2000
 ion_serial_number: 12-123456-1234
+ion_sw_version: 5.6.9-b3
 inet1:
   provider: Lumen                 # Provider type MUST ALREADY EXIST
   download: 500                   # In Mbps, leave blank if unknown
