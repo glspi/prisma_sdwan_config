@@ -537,30 +537,6 @@ sites v4.7:
               prefixes_to_adv_to_wan:
               router_id:
               stalepath_time: 120
-          route_maps v2.1:
-            No-Advertise:
-              auto_generated: false
-              description: Tell Prisma not to advertise BGP routes to the Service
-                Connection
-              route_map_entries:
-              - continue_entry:
-                match:
-                  as_path_id:
-                  community_list_id:
-                  ip_next_hop_id:
-                  ip_prefix_list_id:
-                  tag: 0
-                order: 10
-                permit: true
-                set:
-                  additive_community: false
-                  as_path_prepend:
-                  community: no-advertise
-                  ip_next_hop:
-                  local_preference: 0
-                  tag: 0
-                  weight: 0
-              tags:
           static v2.2:
             {{ site_abbreviation }}-LAN:
               address_family: ipv4

@@ -38,7 +38,6 @@ import logging
 import os
 import re
 import sys
-from getpass import getpass
 
 import yaml
 from prisma_sase import API as prisma_api
@@ -2616,8 +2615,6 @@ def go():
                 if cred_name.upper() in os.environ:
                     creds[cred_name] = os.environ.get(cred_name.upper)
                 else:
-                    if cred_name == "client_secret":
-                        creds[cred_name] = getpass(f"Enter the {cred_name.upper()}: ")
                     creds[cred_name] = input(f"Enter the {cred_name.upper()}: ")
     except KeyboardInterrupt:
         print("Ctrl + C pressed, canceling..\n")
