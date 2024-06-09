@@ -18,7 +18,7 @@ setup(name='prisma_sdwan_config',
             'PyYAML == 6.0',
             'jinja2==3.1.2',
             'typer==0.7.0',
-            'prisma_sase @ git+https://github.com/glspi/prisma_sase_sdwan.git'
+            'prisma_sase @ git+https://github.com/nopg/prisma_sase_sdwan.git'
       ],
       packages=['cloudgenix_config', 'yaml_config'],
       entry_points={
